@@ -1,0 +1,3 @@
+instructor_homepage:
+    path:     /instructor
+    defaults: { _controller: InstructorBundle:Default:index }

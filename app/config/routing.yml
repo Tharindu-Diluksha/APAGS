@@ -1,3 +1,11 @@
+instructor:
+    resource: "@InstructorBundle/Resources/config/routing.yml"
+    prefix:   /
+
+student:
+    resource: "@StudentBundle/Resources/config/routing.yml"
+    prefix:   /
+
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
