@@ -1,0 +1,54 @@
+Drop database APAGS;
+Create database APAGS;
+Use APAGS;
+
+CREATE TABLE users(
+	id varchar(7) NOT NULL,
+	password varchar(500) NOT NULL,
+	role varchar(2) NOT NULL,
+	PRIMARY KEY (id)
+	);
+
+CREATE TABLE students(
+    id varchar(7) NOT NULL,
+    name varchar(60),
+    PRIMARY KEY (id),
+    FOREIGN KEY (id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE 
+    );
+
+CREATE TABLE instructors(
+    id varchar(7) NOT NULL,
+    name varchar(60),
+    PRIMARY KEY (id),
+    FOREIGN KEY (id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
+    );
+
+CREATE TABLE assignments(
+    id varchar(10) NOT NULL,
+    name varchar(20) NOT NULL,
+    instructor_id varchar(7) NOT NULL,
+    test_id varchar(10) DEFAULT NULL,
+    description text,
+    dueDate DATE,
+    dueTime TIME,
+    createdTime TIMESTAMP,
+    PRIMARY KEY (id),
+    FOREIGN KEY (instructor_id) REFERENCES instructors(id) ON DELETE CASCADE ON UPDATE CASCADE
+    );
+
+CREATE TABLE testcase(
+	test_id varchar(10),
+	asgn_id varchar(10),
+	description text,
+	PRIMARY KEY (test_id),
+	FOREIGN KEY (asgn_id) REFERENCES assignments(id) ON DELETE CASCADE ON UPDATE CASCADE
+	);
+
+CREATE TABLE submittedAssignments(
+	id varchar(10) REFERENCES assignments(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	std_id varchar(7) REFERENCES students(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	submittedDate DATE,
+	submittedTime TIME,
+	marks float,
+	PRIMARY KEY (id,std_id)
+	);

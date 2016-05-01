@@ -1,1 +1,56 @@
-Welcome to student !endunless
+<html>
+
+<head>
+
+    <title>APAGS Student</title>
+
+    <meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {% block stylesheets %}
+    <link href="{{ 	asset('bundles/student/bootstrap/dist/css/bootstrap.min.css')}}" type="text/css" rel="stylesheet"/>
+    <link href="{{ asset('css/main.css') }}" type="text/css" rel="stylesheet" />
+    {% endblock %}
+
+</head>
+
+<body>
+<div class="container">
+  <div class="row" style="float: right;">
+    <div>
+      <ul class="nav nav-tabs" role="tablist">
+    <li class="active"><a href="#">Home</a></li>
+    <li><a href="#">My Progress</a></li>
+    <li><a href="#">CSS</a></li>
+    <li><a href="#">My Account</a></li>        
+  </ul>
+    </div>
+    
+  </div>
+  
+</div>
+<div class="container" >
+  <div class="jumbotron">
+    <h1>Student Home Page</h1>
+    <p>Resize this responsive page to see the effect!</p> 
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <h3>Column 1</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+    </div>
+    <div class="col-sm-4">
+      <h3>Column 2</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+    </div>
+    <div class="col-sm-4">
+      <h3>Column 3</h3>        
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+    </div>
+  </div>
+</div>
+
+</body>
