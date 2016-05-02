@@ -1,0 +1,51 @@
+{% extends 'StudentBundle:Default:index.html.twig'%}
+
+{% block header %}
+<div class="container"> <!-- Header and navigation bar -->
+  <div class="row" >
+    <div class="col-sm-4" style=" float: left;text-align: left;padding-top: 8; padding-left: 100;">
+      <p> Hello Student </p>
+    </div>
+    <div style="float: right;">
+      <ul class="nav nav-tabs" role="tablist">
+        <li><a href="/std_myhome">Home</a></li>
+        <li><a href="#">My classes</a></li>
+        <li class="active"><a href="/std_runme">Run Me</a></li>
+        <li><a href="#">My Progress</a></li>
+        <li><a href="#">My Account</a></li>        
+      </ul>
+    </div>    
+  </div>
+</div>
+{% endblock %}
+
+
+{% block content %}
+<div class="container" style="padding-top: 1">
+	<div class="col-sm-8">
+		<div class="container">
+			<textarea id="codearea" rows="50" cols="100" style="float: left;">
+		
+			</textarea>
+		</div>
+	</div>
+	<div class="col-sm-4">
+		<div>
+			<button type="button" onclick="catchtextFunction" style="float: right; margin-top: 100">
+				TRY
+			</button>
+		</div>
+	</div>
+	
+</div>
+	
+{% endblock %}
+
+{% block script %}
+  <script>
+  	function catchtextFunction(){
+  		var code = document.getElementById("codearea").value;
+  		window.location ='/std_runme_try?text='+ code;
+  	}
+  </script>
+{% endblock %}

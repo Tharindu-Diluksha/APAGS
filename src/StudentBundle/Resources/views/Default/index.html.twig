@@ -15,42 +15,35 @@
 </head>
 
 <body>
-<div class="container">
-  <div class="row" style="float: right;">
-    <div>
+
+  {% block header %}
+  <div class="container"> <!-- Header and navigation bar -->
+  <div class="row" >
+    <div class="col-sm-4" style=" float: left;text-align: left;padding-top: 8; padding-left: 100;">
+      <p> Hello Student </p>
+    </div>
+    <div style="float: right;">
       <ul class="nav nav-tabs" role="tablist">
-    <li class="active"><a href="#">Home</a></li>
-    <li><a href="#">My Progress</a></li>
-    <li><a href="#">CSS</a></li>
-    <li><a href="#">My Account</a></li>        
-  </ul>
-    </div>
-    
+        <li class="active"><a href="/std_myhome">Home</a></li>
+        <li><a href="#">My classes</a></li>
+        <li><a href="/std_runme">Run Me</a></li>
+        <li><a href="#">My Progress</a></li>
+        <li><a href="#">My Account</a></li>        
+      </ul>
+    </div>    
   </div>
+</div>
+  {% endblock %}
+
   
-</div>
-<div class="container" >
-  <div class="jumbotron">
-    <h1>Student Home Page</h1>
-    <p>Resize this responsive page to see the effect!</p> 
-  </div>
-  <div class="row">
-    <div class="col-sm-4">
-      <h3>Column 1</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
-    </div>
-    <div class="col-sm-4">
-      <h3>Column 2</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
-    </div>
-    <div class="col-sm-4">
-      <h3>Column 3</h3>        
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
-    </div>
-  </div>
-</div>
+  {% block content %}
+  <!-- Custome content for pages goes here -->
+  {% endblock %}
+  
+  {% block script %}
+  <!-- Custome javascript goes here -->
+  {% endblock %}
+
+
 
 </body>

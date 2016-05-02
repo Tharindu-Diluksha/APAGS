@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new StudentBundle\StudentBundle(),
             new InstructorBundle\InstructorBundle(),
             new AdminBundle\AdminBundle(),
+            new MainBundle\MainBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

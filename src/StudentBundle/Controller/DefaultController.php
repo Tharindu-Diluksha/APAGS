@@ -10,4 +10,14 @@ class DefaultController extends Controller
     {
         return $this->render('StudentBundle:Default:index.html.twig');
     }
+
+    public function myhomeAction()
+    {
+    	return $this->render('StudentBundle:Pages:myhome.html.twig');
+    }
+
+    public function runmeAction()
+    {
+    	return $this->render('StudentBundle:Pages:runme.html.twig');
+    }
 }

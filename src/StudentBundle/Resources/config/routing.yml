@@ -1,3 +1,17 @@
 student_homepage:
     path:     /student
     defaults: { _controller: StudentBundle:Default:index }
+
+student_myhome:
+    path:  /std_myhome
+    defaults: { _controller: StudentBundle:Default:myhome }
+
+student_runme:
+    path:  /std_runme
+    defaults: { _controller: StudentBundle:Default:runme }
+
+student_runme_try:
+    path:  /std_runme_try/{$text}
+    defaults:  
+          _controller: MainBundle:Default:writefile
+          text: $text

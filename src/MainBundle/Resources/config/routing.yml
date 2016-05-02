@@ -1,0 +1,7 @@
+main_homepage:
+    path:     /runp
+    defaults: { _controller: MainBundle:Default:index }
+
+main_writefile:
+    path:   /main_writefile
+    defaults: { _controller: MainBundle:Default:writefile}
