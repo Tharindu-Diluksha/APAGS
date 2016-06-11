@@ -5,3 +5,7 @@ main_homepage:
 main_writefile:
     path:   /main_writefile
     defaults: { _controller: MainBundle:Default:writefile}
+
+main_writetofile:
+    path:   /main_writetofile
+    defaults: { _controller: MainBundle:Default:writetofile}

@@ -24,7 +24,7 @@ final class connection
     {
         $servername = "localhost";
         $username = "root";
-        $password ="diluksha";
+        $password ="12345";
         $dbname = "APAGS";
         
         // Create connection

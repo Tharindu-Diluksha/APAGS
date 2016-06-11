@@ -1,0 +1,81 @@
+{% extends 'StudentBundle:Default:index.html.twig'%}
+
+{% block header %}
+    <div class="container"> <!-- Header and navigation bar -->
+        <div class="row" >
+            <div class="col-sm-4" style=" float: left;text-align: left;padding-top: 8px; padding-left: 100px;">
+                <p> Hello Student </p>
+            </div>
+            <div style="float: right;">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li><a href="/std_myhome">Home</a></li>
+                    <li><a href="#">My classes</a></li>
+                    <li class="active"><a href="/std_runmetest">Run Me</a></li>
+                    <li><a href="#">My Progress</a></li>
+                    <li><a href="#">My Account</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+    <div class="container" style="padding-top: 1px">
+        <div class="col-sm-8">
+            <div id="codearea" class="container">
+			{#<textarea id="form_task" rows="50" cols="100" style="float: left;">
+                &#123;&#35;{{ form_errors(form.task) }}&#35;&#125;
+                {{ form_widget(form.task) }}
+			</textarea>#}
+                {{ form_widget(form.task, { 'attr': {'style': 'float: left'} }) }}
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div>
+                {{ form_widget(form.save) }}
+            </div>
+        </div>
+
+    </div>
+    {{ form_end(form) }}
+
+
+
+
+    {#{{ form_start(form) }}
+    {{ form_errors(form) }}
+    <div>
+        {{ form_label(form.task) }}
+        {{ form_errors(form.task) }}
+        {{ form_widget(form.task) }}
+    </div>
+
+    <div>
+        {{ form_label(form.dueDate) }}
+        {{ form_errors(form.dueDate) }}
+        {{ form_widget(form.dueDate) }}
+    </div>
+
+    <div>
+        {{ form_widget(form.save) }}
+    </div>
+
+    {{ form_end(form) }}#}
+{% endblock %}
+
+
+{% block script %}
+    <!-- Custome javascript goes here -->
+    {#<script>
+        function init() {
+            /*document.getElementById("form_task").style.height='800px';*/
+            /*document.getElementById("form_task").style.width='600px';
+            document.getElementById("form_task").style.padding='10 0 800 0';*/
+            document.getElementById("form_task").rows ='50';
+            document.getElementById("form_task").cols ='100';
+        }
+        window.onload = init;
+    </script>#}
+{% endblock %}

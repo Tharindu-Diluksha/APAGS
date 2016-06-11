@@ -10,8 +10,8 @@ namespace MainBundle\Controller;
  	public function writeToFile($text)
  	{
  		$index ="130578F";
- 		$assignment ="0001";
- 		$text = "Hello World Test File Handle! \nWriting to test.txt file!! \nnew line added";
+ 		$assignment ="0002";
+ 		/*$text = "Hello World Test File Handle! \nWriting to test.txt file!! \nnew line added";*/
  		$file = fopen($index.$assignment.".py", "a+");
  		$filename= $index.$assignment.".py";
  		file_put_contents($filename, $text);

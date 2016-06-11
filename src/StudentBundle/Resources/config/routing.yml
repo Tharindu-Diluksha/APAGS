@@ -10,8 +10,14 @@ student_runme:
     path:  /std_runme
     defaults: { _controller: StudentBundle:Default:runme }
 
+student_runmetest:
+    path: /std_runmetest
+    defaults: { _controller: StudentBundle:Default:runmetest }
+
 student_runme_try:
     path:  /std_runme_try/{$text}
     defaults:  
           _controller: MainBundle:Default:writefile
           text: $text
+
+
