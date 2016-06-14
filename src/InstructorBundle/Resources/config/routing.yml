@@ -1,3 +1,7 @@
 instructor_homepage:
     path:     /instructor
     defaults: { _controller: InstructorBundle:Default:index }
+
+instructor_createassignment:
+    path: /ins_create_assignment
+    defaults: { _controller: InstructorBundle:Default:create_assignment}

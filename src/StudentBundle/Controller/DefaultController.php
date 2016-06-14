@@ -21,9 +21,35 @@ class DefaultController extends Controller
     	return $this->render('StudentBundle:Pages:myhome.html.twig');
     }
 
-    public function runmeAction()
+    public function runmeAction(Request $request)
     {
-    	return $this->render('StudentBundle:Pages:runme.html.twig');
+        $task = new Task();
+
+        $form = $this->createFormBuilder($task)
+            ->add('task', TextareaType::class, array('attr' => array('cols' => '100', 'rows' => '50'),))
+            ->add('save', SubmitType::class, array('label' => 'Create Task'))
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // ... perform some action, such as saving the task to the database
+            $data = $form['task']->getData();
+
+            $response = $this->forward('MainBundle:Default:runfile', array(
+                'text'  => $data,
+            ));
+
+            // ... further modify the response or return it directly
+
+            return $response;
+
+        }
+
+
+        return $this->render('StudentBundle:Pages:runme.html.twig', array(
+            'form' => $form->createView(),
+        ));
     }
 
     public function runmetestAction(Request $request){

@@ -3,8 +3,8 @@ main_homepage:
     defaults: { _controller: MainBundle:Default:index }
 
 main_writefile:
-    path:   /main_writefile
-    defaults: { _controller: MainBundle:Default:writefile}
+    path:   /main_runfile
+    defaults: { _controller: MainBundle:Default:runfile}
 
 main_writetofile:
     path:   /main_writetofile
