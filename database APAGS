@@ -29,18 +29,22 @@ CREATE TABLE assignments(
     instructor_id varchar(7) NOT NULL,
     test_id varchar(10) DEFAULT NULL,
     description text,
-    dueDate DATE,
-    dueTime TIME,
+    total_marks int,
+    due_date DATE,
+    due_time TIME,
     createdTime TIMESTAMP,
     PRIMARY KEY (id),
     FOREIGN KEY (instructor_id) REFERENCES instructors(id) ON DELETE CASCADE ON UPDATE CASCADE
     );
 
 CREATE TABLE testcase(
+    id int,
 	test_id varchar(10),
 	asgn_id varchar(10),
-	description text,
-	PRIMARY KEY (test_id),
+	input text,
+	output text,
+	marks int,
+	PRIMARY KEY (id),
 	FOREIGN KEY (asgn_id) REFERENCES assignments(id) ON DELETE CASCADE ON UPDATE CASCADE
 	);
 
@@ -52,3 +56,6 @@ CREATE TABLE submittedAssignments(
 	marks float,
 	PRIMARY KEY (id,std_id)
 	);
+
+CREATE TABLE class(
+    id

@@ -52,6 +52,7 @@ class DefaultController extends Controller
         ));
     }
 
+    /* function for run the python code */
     public function runmetestAction(Request $request){
 
         // create a task to write python file
@@ -68,7 +69,7 @@ class DefaultController extends Controller
             // ... perform some action, such as saving the task to the database
             $data = $form['task']->getData();
 
-            $response = $this->forward('MainBundle:Default:writetofile', array(
+            $response = $this->forward('MainBundle:Default:runfile', array(
                 'text'  => $data,
             ));
 

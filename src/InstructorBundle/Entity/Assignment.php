@@ -13,12 +13,17 @@ class Assignment
     protected $assignmentid;
     protected $instructorid;
     protected $classid;
+    protected $description;
     protected $duedate;
     protected $duetime;
     protected $totalmarks;
     protected $nooftestcases;
-    protected $firstemail;
-    protected $emails = array();
+    protected $testcasetype;
+    protected $inputs = array();
+    protected $outputs = array();
+    protected $testcasemarks =array();
+
+
 
     /**
      * @return mixed
@@ -67,6 +72,23 @@ class Assignment
     {
         $this->classid = $classid;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
 
     /**
      * @return mixed
@@ -135,36 +157,70 @@ class Assignment
     /**
      * @return mixed
      */
-    public function getFirstemail()
+    public function getTestcasetype()
     {
-        return $this->firstemail;
+        return $this->testcasetype;
     }
 
     /**
-     * @param mixed $firstemail
+     * @param mixed $testcasetype
      */
-    public function setFirstemail($firstemail)
+    public function setTestcasetype($testcasetype)
     {
-        $this->firstemail = $firstemail;
-    }
-
-
-    /**
-     * @return mixed
-     */
-    public function getEmails()
-    {
-        return $this->emails;
+        $this->testcasetype = $testcasetype;
     }
 
     /**
-     * @param mixed $emails
+     * @return array
      */
-    public function setEmails($emails)
+    public function getInputs()
     {
-        /*$this->$emails->add($emails);*/
-        array_push($this->emails,$emails);
+        return $this->inputs;
     }
+
+    /**
+     * @param array $inputs
+     */
+    public function setInputs($inputs)
+    {
+        /*$this->inputs = $inputs;*/
+        array_push($this->inputs,$inputs);
+    }
+
+    /**
+     * @return array
+     */
+    public function getOutputs()
+    {
+        return $this->outputs;
+    }
+
+    /**
+     * @param array $outputs
+     */
+    public function setOutputs($outputs)
+    {
+        /*$this->outputs = $outputs;*/
+        array_push($this->outputs,$outputs);
+    }
+
+    /**
+     * @return array
+     */
+    public function getTestcasemarks()
+    {
+        return $this->testcasemarks;
+    }
+
+    /**
+     * @param array $testcasemarks
+     */
+    public function setTestcasemarks($testcasemarks)
+    {
+        /*$this->testcasemarks = $testcasemarks;*/
+        array_push($this->testcasemarks,$testcasemarks);
+    }
+
 
 
 }

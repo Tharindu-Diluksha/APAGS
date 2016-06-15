@@ -1,2 +1,3 @@
-for x in range (5,9):
-     print x
+print (3)
+print (12)
+print (hello)
