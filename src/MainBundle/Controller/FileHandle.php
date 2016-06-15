@@ -12,8 +12,8 @@ namespace MainBundle\Controller;
  		$index ="130578F";
  		$assignment ="0002";
  		/*$text = "Hello World Test File Handle! \nWriting to test.txt file!! \nnew line added";*/
- 		$file = fopen($index.$assignment.".py", "a+");
- 		$filename= $index.$assignment.".py";
+ 		$file = fopen("C:/APAGS/".$index.$assignment.".py", "a+");
+ 		$filename= "C:/APAGS/apags".$index.$assignment.".py";
  		file_put_contents($filename, $text);
  		fclose($file);
 

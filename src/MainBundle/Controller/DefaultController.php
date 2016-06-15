@@ -26,26 +26,53 @@ class DefaultController extends Controller
 
     public function runfileAction($text)
     {
+        $assignment_file = 'apags130578F0002.py';
 
+        /* write code to a python file */
         $filehandle = new FileHandle();
         $filehandle->writeToFile($text);
 
-        $process = new Process('C:/Python27/python.exe "E:/Semester 05/Modules/SoftwareEngineering/Project/APAGS/web/130578F0002.py"');
+        /* run the main idle python file to run the assignment*/
+        $processmain = new Process('C:/Python27/python.exe C:/APAGS/ApagsMain.py C:/APAGS/'.$assignment_file);
+        $processmain->run();
 
-        $process->run();
-       /* echo $process->getIncrementalOutput();
-        echo $process->getOutput();*/
-        $error = $process->getErrorOutput();
-        if ($error==null){
-            $output=$process->getOutput();
-            /*$outputarray = explode('',$output);*/
-            print_r($output);
-            $process->clearOutput();
+        /* open the output result file and read it line by line */
+        $fileoutput = array();
+        $myfile = fopen("C:/APAGS/outputfile.txt", "r") or die("Unable to open file!");
+
+        while(!feof($myfile)) {
+            $line = fgets($myfile);
+            echo $line . "<br>";
+            array_push($fileoutput,$line);
+        }
+        fclose($myfile);
+
+        /* IF errors in written program */
+        if ($fileoutput[0] ==null){
+            echo "process is runnign!!!!!!";
+            $process = new Process('C:/Python27/python.exe C:/APAGS/'.$assignment_file);
+
+            $process->run();
+
+            $error = $process->getErrorOutput();
+            if ($error==null){
+                $output=$process->getOutput();
+                $outputarray = explode( '\n',$output);
+                echo "actual file";
+                print_r($outputarray);
+                $process->clearOutput();
+            }
+            else{
+                print($process->getErrorOutput());
+                $process->clearErrorOutput();
+            }
+
         }
         else{
-            print($process->getErrorOutput());
-            $process->clearErrorOutput();
+            echo "text file";
+           print_r($fileoutput);
         }
+
     	return $this->render('MainBundle:Default:index.html.twig');
     }
 

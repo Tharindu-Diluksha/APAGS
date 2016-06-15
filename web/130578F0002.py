@@ -1,3 +1,3 @@
-print (3)
-print (12)
-print (hello)
+print ("welcome to new directory")
+print ("yeah")
+print ("bye")
