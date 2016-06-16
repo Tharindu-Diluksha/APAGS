@@ -4,14 +4,13 @@
     <div class="container"> <!-- Header and navigation bar -->
         <div class="row" >
             <div class="col-sm-4" style=" float: left;text-align: left;padding-top: 8; padding-left: 100;">
-                <p> Hello Student </p>
+                <p> Hello {{ userid }}</p>
             </div>
             <div style="float: right;">
                 <ul class="nav nav-tabs" role="tablist">
-                    <li class="active"><a href="/std_myhome">Home</a></li>
-                    <li><a href="#">My classes</a></li>
+                    <li class="active"><a href="/ins_home">Home</a></li>
+                    <li><a href="/ins_myclasses">My classes</a></li>
                     <li><a href="/std_runmetest">Run Me</a></li>
-                    <li><a href="#">My Progress</a></li>
                     <li><a href="#">My Account</a></li>
                 </ul>
             </div>
@@ -22,10 +21,10 @@
 
 {% block content %}
     <!-- Custome content for pages goes here -->
-    <div class="container" >
+    <div class="container" style="padding-top: 10px">
         <div class="jumbotron">
-            <h1>Student Home Page</h1>
-            <p>Resize this responsive page to see the effect!</p>
+            <h1>Instructor Home Page</h1>
+            <p>Welcome to APAGS!</p>
         </div>
         <div class="row">
             <div class="col-sm-4">

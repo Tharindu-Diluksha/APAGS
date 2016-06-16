@@ -1,0 +1,64 @@
+{% extends 'InstructorBundle:Default:index.html.twig'%}
+
+{% block header %}
+    <div class="container"> <!-- Header and navigation bar -->
+        <div class="row" >
+            <div class="col-sm-4" style=" float: left;text-align: left;padding-top: 8; padding-left: 100;">
+                <p> Hello {{ userid }}</p>
+            </div>
+            <div style="float: right;">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li><a href="/ins_home">Home</a></li>
+                    <li class="active"><a href="/ins_myclasses">My classes</a></li>
+                    <li><a href="/std_runmetest">Run Me</a></li>
+                    <li><a href="#">My Account</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <!-- Custome content for pages goes here -->
+    <div class="container">
+        <h2>My Classes</h2>
+        <p>Click on class to for more details</p>
+
+        {% for myclass in myclasses %}
+
+            <div class="container" style="border: outset; width: 500px">
+
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>{{ myclass.id }}</th>
+                        <th>{{ myclass.name }}</th>
+                        <th>Next Assignment Due</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr>
+                        <td><a href="/ins_home">Class ID</a></td>
+                        <td><a href="/ins_home">Last Assignment</a></td>
+                        <td><a href="/ins_home">Next Assignment</a></td>
+                    </tr>
+
+                    <tr>
+                        <td><a href="/ins_create_assignment_through_class/{{ myclass.id }}">Create Assignment</a></td>
+                        {#<td>Moe</td>
+                        <td>mary@example.com</td>#}
+                    </tr>
+                    {#<tr>
+                        <td>July</td>
+                        <td>Dooley</td>
+                        <td>july@example.com</td>
+                    </tr>#}
+                    </tbody>
+                </table>
+            </div>
+
+        {% endfor %}
+
+    </div>
+{% endblock %}

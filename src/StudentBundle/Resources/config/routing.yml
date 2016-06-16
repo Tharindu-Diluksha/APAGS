@@ -14,6 +14,18 @@ student_runmetest:
     path: /std_runmetest
     defaults: { _controller: StudentBundle:Default:runmetest }
 
+student_myclasses:
+    path: /std_myclasses
+    defaults: { _controller: StudentBundle:Studentclass:myclasses }
+
+student_loadclassassignments:
+    path: /std_load_class_assignments/{classid}
+    defaults: { _controller: StudentBundle:Studentclass:load_class_assignments }
+
+student_submitassignmentthroughclass:
+    path: /std_submit_assignments_through_class/{assignmentid}
+    defaults: { _controller: StudentBundle:Studentclass:submit_assignments_through_class }
+
 student_runme_try:
     path:  /std_runme_try/{$text}
     defaults:  

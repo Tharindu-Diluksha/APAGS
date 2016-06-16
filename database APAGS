@@ -58,4 +58,16 @@ CREATE TABLE submittedAssignments(
 	);
 
 CREATE TABLE class(
-    id
+    id varchr(7),
+    instructor_id varchar(7) REFERENCES instructors(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    name varchar(50),
+    PRIMARY KEY (id)
+    );
+
+CREATE TABLE studentclass(
+    id varchar(10),
+    class_id varchar(7) REFERENCES class(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    student_id varchar(7) REFERENCES students(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    addedTime TIMESTAMP,
+    PRIMARY KEY (ID),
+    );

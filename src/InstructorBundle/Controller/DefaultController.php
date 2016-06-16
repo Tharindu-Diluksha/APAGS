@@ -17,12 +17,56 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
-    public function indexAction()
+    private $userinsid;
+    public function homefirstAction($userid)
     {
-        return $this->render('InstructorBundle:Default:index.html.twig');
+        $this->userinsid=$userid;
+        return $this->render('InstructorBundle:Pages:inshomepage.html.twig',array(
+            'userid'=>$this->userinsid,
+        ));
     }
 
-    public function create_assignmentAction(Request $request){
+    public function homeAction()
+    {
+
+        return $this->render('InstructorBundle:Pages:inshomepage.html.twig',array(
+            'userid'=>$_SESSION['userID'],
+        ));
+    }
+
+    /* Load every class of the instructor */
+    public function myclassesAction(){
+
+        /* get data from databse */
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+            'SELECT T
+            FROM MainBundle:Classes T
+            WHERE T.instructor_id=:instid'
+        )->setParameter('instid', $_SESSION['userID']);
+
+
+
+        $myclasses = $query->getResult();
+
+
+        /* render the page */
+        return $this->render('InstructorBundle:Pages:insmyclasses.html.twig',array(
+            'userid'=>$_SESSION['userID'],
+            'myclasses' => $myclasses,
+        ));
+    }
+
+    public function create_assignment_through_classAction($classid){
+        $response = $this->forward('InstructorBundle:Default:create_assignment', array(
+            'classid' => $classid,
+        ));
+        // ... further modify the response or return it directly
+        return $response;
+    }
+
+    /* Create assignment view and pass it to save*/
+    public function create_assignmentAction(Request $request,$classid){
 
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery(
@@ -35,10 +79,12 @@ class DefaultController extends Controller
         $assignment = new Assignment();
 
         $assignment->setAssignmentid($lastid['id']+1);
+        $assignment->setClassid($classid);
 
         $form = $this->createFormBuilder($assignment)
             ->add('AssignmentID',TextType::class, array('label' => false))
             ->add('ClassID',TextType::class, array('label' => false))
+            ->add('Name',TextType::class, array('label' => false))
             ->add('Description',TextareaType::class, array('label' => false,'attr' => array('cols' => '100', 'rows'
             => '10'),))
             ->add('DueDate',DateType::class, array('label' => false))
@@ -76,6 +122,7 @@ class DefaultController extends Controller
             // ... perform some action, such as saving the task to the database
             $assignmentid = $form['AssignmentID']->getData();
             $classid = $form['ClassID']->getData();
+            $name = $form['Name']->getData();
             $description = $form['Description']->getData();
             $duedate = $form['DueDate']->getData();
             $duetime = $form['DueTime']->getData();
@@ -88,6 +135,7 @@ class DefaultController extends Controller
             $response = $this->forward('MainBundle:Default:saveassignment', array(
                 'assignmentid' => $assignmentid,
                 'classid' => $classid,
+                'name'=>$name,
                 'description' => $description,
                 'duedate' => $duedate,
                 'duetime' => $duetime,
@@ -96,6 +144,7 @@ class DefaultController extends Controller
                 'inputs' => $inputs,
                 'outputs' => $outputs,
                 'testcasemarks' => $testcasemarks,
+                'userid' => $_SESSION['userID'],
             ));
             // ... further modify the response or return it directly
             return $response;
@@ -106,6 +155,7 @@ class DefaultController extends Controller
 
         return $this->render('InstructorBundle:Pages:insAssignment.html.twig', array(
             'form' => $form->createView(),
+            'userid' => $_SESSION['userID'],
         ));
     }
 }

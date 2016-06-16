@@ -10,7 +10,7 @@
 
 {% block content %}
 
-<div class="container">
+<div class="container" style="border: outset; border-color: #6c65ff">
     {{ form_start(form) }}
     {{ form_errors(form) }}
     {# ... #}
@@ -22,6 +22,11 @@
     <div>
         {{ form_label(form.ClassID,'ClassID') }}
         {{ form_widget(form.ClassID) }}
+
+    </div>
+    <div>
+        {{ form_label(form.Name,'Assignment Name') }}
+        {{ form_widget(form.Name) }}
 
     </div>
     <div class="row">

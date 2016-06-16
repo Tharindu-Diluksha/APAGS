@@ -1,7 +1,19 @@
+instructor_homepagefirst:
+    path:     /ins_home_log
+    defaults: { _controller: InstructorBundle:Default:homefirst }
+
 instructor_homepage:
-    path:     /instructor
-    defaults: { _controller: InstructorBundle:Default:index }
+    path:     /ins_home
+    defaults: { _controller: InstructorBundle:Default:home }
 
 instructor_createassignment:
     path: /ins_create_assignment
     defaults: { _controller: InstructorBundle:Default:create_assignment}
+
+instructor_createassignmentthroughclass:
+    path: /ins_create_assignment_through_class/{classid}
+    defaults: { _controller: InstructorBundle:Default:create_assignment_through_class}
+
+instructor_classes:
+    path: /ins_myclasses
+    defaults: { _controller: InstructorBundle:Default:myclasses}

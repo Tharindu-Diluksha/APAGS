@@ -21,7 +21,10 @@ class AssignmentDB
      * @ORM\Id
      */
     private $id;
-
+    /**
+     * @ORM\Column(type="string", length=7)
+     */
+    private $class_id;
     /**
      * @ORM\Column(type="string", length=20)
      */
@@ -69,6 +72,23 @@ class AssignmentDB
     {
         $this->id = $id;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getClassId()
+    {
+        return $this->class_id;
+    }
+
+    /**
+     * @param mixed $class_id
+     */
+    public function setClassId($class_id)
+    {
+        $this->class_id = $class_id;
+    }
+
 
     /**
      * @return mixed

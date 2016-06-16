@@ -11,14 +11,30 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
+
+
+    private $userstdid;
+
+
     public function indexAction()
     {
         return $this->render('StudentBundle:Default:index.html.twig');
     }
 
+    public function myhomefirstAction($userid)
+    {
+        $this->userstdid=$userid;
+
+        return $this->render('StudentBundle:Pages:myhome.html.twig',array(
+            'userid' => $this->userstdid,
+        ));
+    }
+
     public function myhomeAction()
     {
-    	return $this->render('StudentBundle:Pages:myhome.html.twig');
+        return $this->render('StudentBundle:Pages:myhome.html.twig',array(
+            'userid' => $_SESSION['userID'],
+        ));
     }
 
     public function runmeAction(Request $request)
@@ -53,7 +69,7 @@ class DefaultController extends Controller
     }
 
     /* function for run the python code */
-    public function runmetestAction(Request $request){
+    public function runmetestAction(Request $request,$assignmentid){
 
         // create a task to write python file
         $task = new Task();
@@ -71,6 +87,8 @@ class DefaultController extends Controller
 
             $response = $this->forward('MainBundle:Default:runfile', array(
                 'text'  => $data,
+                'userid' => $_SESSION['userID'],
+                'assignmentid' => $assignmentid,
             ));
 
             // ... further modify the response or return it directly
@@ -82,6 +100,7 @@ class DefaultController extends Controller
 
         return $this->render('StudentBundle:Pages:runmetest.html.twig', array(
             'form' => $form->createView(),
+            'userid' => $_SESSION['userID'],
         ));
 
     }

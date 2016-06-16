@@ -8,35 +8,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   {% block stylesheets %}
-    <link href="{{ 	asset('bundles/student/bootstrap/dist/css/bootstrap.min.css')}}" type="text/css" rel="stylesheet"/>
+    <link href="{{ 	asset('bundles/instructor/bootstrap/dist/css/bootstrap.min.css')}}" type="text/css" rel="stylesheet"/>
     <link href="{{ asset('css/main.css') }}" type="text/css" rel="stylesheet" />
     <script src="{{ asset('bundles/instructor/bootstrap/jquery.min.js') }}"></script>
+    <script src="bundles/instructor/bootstrap/dist/js/bootstrap.min.js"></script>
   {% endblock %}
-  {#<script src="{{ asset('bundles/instructor/bootstrap/jquery.min.js') }}" type="text/javascript">
-    // keep track of how many email fields have been rendered
-    var emailCount = '{{ form.emails|length }}';
-
-    jQuery(document).ready(function() {
-      jQuery('#add-another-email').click(function(e) {
-        e.preventDefault();
-
-        var emailList = jQuery('#email-fields-list');
-
-        // grab the prototype template
-        var newWidget = emailList.attr('data-prototype');
-        // replace the "__name__" used in the id and name of the prototype
-        // with a number that's unique to your emails
-        // end name attribute looks like name="contact[emails][2]"
-        newWidget = newWidget.replace(/__name__/g, emailCount);
-        emailCount++;
-
-        // create a new list element and add it to the list
-        var newLi = jQuery('<li></li>').html(newWidget);
-        newLi.appendTo(emailList);
-      });
-    })
-  </script>#}
-
 
 </head>
 
@@ -46,14 +22,13 @@
   <div class="container"> <!-- Header and navigation bar -->
     <div class="row" >
       <div class="col-sm-4" style=" float: left;text-align: left;padding-top: 8; padding-left: 100;">
-        <p> Hello Student </p>
+        <p> Hello {{ userid }} </p>
       </div>
       <div style="float: right;">
         <ul class="nav nav-tabs" role="tablist">
-          <li class="active"><a href="/std_myhome">Home</a></li>
-          <li><a href="#">My classes</a></li>
+          <li class="active"><a href="/ins_home">Home</a></li>
+          <li><a href="/ins_myclasses">My classes</a></li>
           <li><a href="/std_runmetest">Run Me</a></li>
-          <li><a href="#">My Progress</a></li>
           <li><a href="#">My Account</a></li>
         </ul>
       </div>
@@ -64,10 +39,10 @@
 
 {% block content %}
   <!-- Custome content for pages goes here -->
-  <div class="container" >
+  {#<div class="container" >
     <div class="jumbotron">
-      <h1>Student Home Page</h1>
-      <p>Resize this responsive page to see the effect!</p>
+      <h1>Instructor Home Page</h1>
+      <p>Welcome to APAGS!</p>
     </div>
     <div class="row">
       <div class="col-sm-4">
@@ -86,7 +61,7 @@
         <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
       </div>
     </div>
-  </div>
+  </div>#}
 {% endblock %}
 
 {% block script %}

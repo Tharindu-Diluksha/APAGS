@@ -1,4 +1,4 @@
-main_homepage:
+main_testrunp:
     path:     /runp
     defaults: { _controller: MainBundle:Default:index }
 
@@ -9,3 +9,11 @@ main_writefile:
 main_writetofile:
     path:   /main_writetofile
     defaults: { _controller: MainBundle:Default:writetofile}
+
+main_login:
+    path:   /apags
+    defaults: { _controller: MainBundle:Login:login}
+
+main_register:
+    path:   /register
+    defaults: { _controller: MainBundle:Login:register}
