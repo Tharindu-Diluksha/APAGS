@@ -13,6 +13,7 @@ use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use MainBundle\Entity\AssignmentDB;
 use MainBundle\Entity\TestCase;
+use MainBundle\Entity\SubmittedAssignment;
 use MainBundle\Entity\User;
 
 class DefaultController extends Controller
@@ -61,10 +62,11 @@ class DefaultController extends Controller
 
     }
 
+    /* Run the pyhton code when submitting and save results to database */
     public function runfileAction($text,$userid,$assignmentid)
     {
-        $assignment_file = 'apags'.$userid.$assignmentid.'.py';
-        $output_file = 'apags'.$userid.$assignmentid.'.txt';
+        $assignment_file = 'apags'.$userid.$assignmentid.'.py';//python file name
+        $output_file = 'apags'.$userid.$assignmentid.'.txt';//output file name
 
         /* write code to a python file */
         $filehandle = new FileHandle();
@@ -80,14 +82,15 @@ class DefaultController extends Controller
 
         while(!feof($myfile)) {
             $line = fgets($myfile);
-            echo $line . "<br>";
+            /*echo $line . "<br>";*/
             array_push($fileoutput,$line);
         }
         fclose($myfile);
 
         /* IF errors in written program */
         if ($fileoutput[0] ==null){
-            $process = new Process('C:/Python27/python.exe C:/APAGS/'.$assignment_file);
+            $process = new Process('C:/Python27/python.exe C:/APAGS/'.$assignment_file);// run the python code with
+            // process to get error output
 
             $process->run();
 
@@ -100,17 +103,117 @@ class DefaultController extends Controller
                 $process->clearOutput();
             }
             else{
-                print($process->getErrorOutput());
+                /* If the python program has syntax errors this will cover those */
+                /*print($process->getErrorOutput());*/
+                $process_error_output =(string)$process->getErrorOutput();
                 $process->clearErrorOutput();
+                $submittedasgn = new SubmittedAssignment();
+
+                $submittedasgn->setAsgnId($assignmentid);
+                $submittedasgn->setStdId($userid);
+                $submittedasgn->setMarks(0);
+                $submittedasgn->setDescription("Error in program :".$process_error_output);
+
+                $em = $this->getDoctrine()->getManager();
+
+                $em->persist($submittedasgn); //save the submitted assignment results to databse
+                $em->flush();
             }
 
         }
-        else{
-            /* If the program executed without problems */
-            echo "text file";
-           print_r($fileoutput);
-        }
 
+        /* If the program executed without problems */
+        else{
+            /*echo "text file";
+            print_r($fileoutput);*/
+
+
+            /* Evaluate and save result to database */
+            $em = $this->getDoctrine()->getManager();
+            $query = $em->createQuery(
+                'SELECT T
+            FROM MainBundle:TestCase T
+            WHERE T.asgn_id=:asgnid'
+            )->setParameter('asgnid',$assignmentid );
+
+            $testcases = $query->getResult(); //get all the test cases
+
+            /*foreach ($testcases as $testcase){
+                $qwe = $testcase['marks'];
+                echo "$qwe";
+            }*/
+
+
+            $query = $em->createQuery(
+                'SELECT T.total_marks
+            FROM MainBundle:AssignmentDB T
+            WHERE T.id=:asgnid'
+            )->setParameter('asgnid',$assignmentid );
+            $totalmarks = $query->setMaxResults(1)->getOneOrNullResult();  //get the total marks
+
+            $resultmarks = 0;
+            if(sizeof($fileoutput)-1==sizeof($testcases)){ //check wether there are correct no of outputs
+                for ($x=0;$x<sizeof($fileoutput)-1;$x++){
+                    $toutput=(string)$testcases[$x]->getOutput();
+                    $mark=(string)$testcases[$x]->getMarks();
+                    $mark_int = intval($mark);
+                    echo $mark_int;
+                    if ($toutput==intval($fileoutput[$x]) || $toutput==$fileoutput[$x]){
+                        $resultmarks+=$mark_int;
+                    }
+                }
+
+                if ($resultmarks<=$totalmarks['total_marks']){ // For correct results with is lower than total
+
+                    $submittedasgn = new SubmittedAssignment();
+
+                    $submittedasgn->setAsgnId($assignmentid);
+                    $submittedasgn->setStdId($userid);
+                    $submittedasgn->setMarks($resultmarks);
+                    $submittedasgn->setDescription("Execute good");
+
+                    $em = $this->getDoctrine()->getManager();
+
+                    $em->persist($submittedasgn); //save the submitted assignment results to databse
+                    $em->flush();
+                }
+
+                else{
+                    echo "Error in result generating";
+                    $submittedasgn = new SubmittedAssignment(); // Error in generating result
+
+                    $submittedasgn->setAsgnId($assignmentid);
+                    $submittedasgn->setStdId($userid);
+                    $submittedasgn->setMarks(0);
+                    $submittedasgn->setDescription("Program Error : Error in result generating");
+
+                    $em = $this->getDoctrine()->getManager();
+
+                    $em->persist($submittedasgn); //save the submitted assignment results to databse
+                    $em->flush();
+
+                }
+
+            }
+
+            else{
+                echo "Error in result fileoutput size or testcase size";
+                $submittedasgn = new SubmittedAssignment(); //Error in result fileoutput size or testcase size
+
+                $submittedasgn->setAsgnId($assignmentid);
+                $submittedasgn->setStdId($userid);
+                $submittedasgn->setMarks(0);
+                $submittedasgn->setDescription("Program Error : Error in result fileoutput size or testcase size");
+
+                $em = $this->getDoctrine()->getManager();
+
+                $em->persist($submittedasgn); //save the submitted assignment results to databse
+                $em->flush();
+            }
+
+
+
+        }
     	return $this->render('MainBundle:Default:index.html.twig');
     }
 
@@ -121,6 +224,7 @@ class DefaultController extends Controller
         return $this->render('MainBundle:Default:index.html.twig');
     }
 
+    /* save the assignment and test cases to database*/
     public function saveassignmentAction($assignmentid,$classid,$name,$description,$duedate,$duetime, $totalmarks, $testcasetype,$inputs,$outputs,$testcasemarks,$userid){
         /* save the assignment and test cases to database*/
         echo $assignmentid;
@@ -165,7 +269,7 @@ class DefaultController extends Controller
 
         if ($inputsize>=1){
             $y=0;
-            for ($x=0;$x<$inputsize;$x++){
+            for ($x=0;$x<$inputsize;$x++){ //check for inputs
 
                 $lasttestid = $query->setMaxResults(1)->getOneOrNullResult();
 
@@ -181,7 +285,7 @@ class DefaultController extends Controller
                 $em->flush();
             }
         }
-        elseif ($outputsize>=1){
+        elseif ($outputsize>=1){ // check for outputs
             $y=0;
             for ($x=0;$x<$outputsize;$x++){
 

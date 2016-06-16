@@ -49,12 +49,12 @@ CREATE TABLE testcase(
 	);
 
 CREATE TABLE submittedAssignments(
-	id varchar(10) REFERENCES assignments(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    id varchar(10),
+	asgn_id varchar(10) REFERENCES assignments(id) ON DELETE CASCADE ON UPDATE CASCADE,
 	std_id varchar(7) REFERENCES students(id) ON DELETE CASCADE ON UPDATE CASCADE,
-	submittedDate DATE,
-	submittedTime TIME,
 	marks float,
-	PRIMARY KEY (id,std_id)
+	submitted_datetime TIMESTAMP,
+	PRIMARY KEY (id)
 	);
 
 CREATE TABLE class(
