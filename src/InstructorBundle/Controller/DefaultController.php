@@ -65,6 +65,102 @@ class DefaultController extends Controller
         return $response;
     }
 
+    /* load assignments to class */
+    public function see_class_assignmentsAction($classid){
+        $response = $this->forward('InstructorBundle:Default:see_assignment', array(
+            'classid' => $classid,
+        ));
+        // ... further modify the response or return it directly
+        return $response;
+    }
+
+    /* load assignments to class */
+    public function see_assignmentAction($classid){
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+            'SELECT T
+            FROM MainBundle:AssignmentDB T
+            WHERE T.class_id=:clid'
+        )->setParameter('clid', $classid);
+
+        $myassignments = $query->getResult();
+
+        /* render the page */
+        return $this->render('InstructorBundle:Pages:insclassassignment.html.twig',array(
+            'userid'=>$_SESSION['userID'],
+            'classid' => $classid,
+            'assignments' => $myassignments,
+        ));
+
+    }
+
+    /* load submissions */
+    public function see_submitted_resultsAction($assignmentid){
+        $response = $this->forward('InstructorBundle:Default:see_result', array(
+            'assignmentid' => $assignmentid,
+        ));
+        // ... further modify the response or return it directly
+        return $response;
+    }
+    public function see_resultAction($assignmentid){
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+            'SELECT T
+            FROM MainBundle:SubmittedAssignment T
+            WHERE T.asgn_id=:asgid'
+        )->setParameter('asgid', $assignmentid);
+
+        $mysubmittedassignments = $query->getResult();
+
+        /* render the page */
+        return $this->render('InstructorBundle:Pages:inssubmittedassignment.html.twig',array(
+            'userid' => $_SESSION['userID'],
+            'assignmentid'=>$assignmentid,
+            'assignments' => $mysubmittedassignments,
+        ));
+    }
+
+    public function ins_see_test_resultAction($stid,$asid){
+
+        $fileoutput = array();
+        $myfile = fopen("C:/APAGS/apags".$stid.$asid."result.txt", "r") or die("Unable to open file!");
+
+        /*while(!feof($myfile)) {
+            $line = fgets($myfile);
+            array_push($fileoutput,$line);
+        }*/
+        $filecontent = fread($myfile,filesize("C:/APAGS/apags".$stid.$asid."result.txt"));
+        fclose($myfile);
+
+        $fileline = explode(" newline ",$filecontent);
+        /*print_r($fileline);*/
+        $expectedout = explode(" ",$fileline[0]);
+        $stdout = explode(" ",$fileline[1]);
+        $testmarks = explode(" ",$fileline[2]);
+        /*print_r($expectedout);
+        print_r($stdout);
+        print_r($testmarks);*/
+        $testresult = array();
+
+        for ($x=0;$x<sizeof($expectedout);$x++){
+            $testresult[$x]['expec']=$expectedout[$x];
+            $testresult[$x]['out']=$stdout[$x];
+            $testresult[$x]['mark']=$testmarks[$x];
+            $testresult[$x]['no']=$x+1;
+        }
+
+        return $this->render('InstructorBundle:Pages:inssubmittedtestresult.html.twig',array(
+            'stdid' => $stid,
+            'testresult' => $testresult,
+            /*'expectedout' => $expectedout,
+            'stdout' => $stdout,
+            'testmarks' => $testmarks,*/
+        ));
+
+
+    }
+
+
     /* Create assignment view and pass it to save*/
     public function create_assignmentAction(Request $request,$classid){
 

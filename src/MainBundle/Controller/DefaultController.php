@@ -67,6 +67,10 @@ class DefaultController extends Controller
     {
         $assignment_file = 'apags'.$userid.$assignmentid.'.py';//python file name
         $output_file = 'apags'.$userid.$assignmentid.'.txt';//output file name
+        $result_file = 'apags'.$userid.$assignmentid.'result.txt';
+        $expected_output = array();
+        $your_output = array();
+        $testcase_marks = array();
 
         /* write code to a python file */
         $filehandle = new FileHandle();
@@ -151,12 +155,23 @@ class DefaultController extends Controller
             )->setParameter('asgnid',$assignmentid );
             $totalmarks = $query->setMaxResults(1)->getOneOrNullResult();  //get the total marks
 
+            $query = $em->createQuery(
+                'SELECT T.id
+            FROM MainBundle:SubmittedAssignment T
+            ORDER BY T.id DESC'
+            );
+            $lasttestid = $query->setMaxResults(1)->getOneOrNullResult();
+            $lastsubmittedid=$lasttestid['id'];
+
             $resultmarks = 0;
             if(sizeof($fileoutput)-1==sizeof($testcases)){ //check wether there are correct no of outputs
                 for ($x=0;$x<sizeof($fileoutput)-1;$x++){
                     $toutput=(string)$testcases[$x]->getOutput();
                     $mark=(string)$testcases[$x]->getMarks();
                     $mark_int = intval($mark);
+                    array_push($expected_output,$toutput);
+                    array_push($testcase_marks,$mark_int);
+                    array_push($your_output,(string)$fileoutput[$x]);
                     echo $mark_int;
                     if ($toutput==intval($fileoutput[$x]) || $toutput==$fileoutput[$x]){
                         $resultmarks+=$mark_int;
@@ -166,7 +181,8 @@ class DefaultController extends Controller
                 if ($resultmarks<=$totalmarks['total_marks']){ // For correct results with is lower than total
 
                     $submittedasgn = new SubmittedAssignment();
-
+                    echo $lastsubmittedid+1;
+                    /*$submittedasgn->setId($lastsubmittedid+1);*/
                     $submittedasgn->setAsgnId($assignmentid);
                     $submittedasgn->setStdId($userid);
                     $submittedasgn->setMarks($resultmarks);
@@ -199,7 +215,7 @@ class DefaultController extends Controller
             else{
                 echo "Error in result fileoutput size or testcase size";
                 $submittedasgn = new SubmittedAssignment(); //Error in result fileoutput size or testcase size
-
+                $submittedasgn->setId();
                 $submittedasgn->setAsgnId($assignmentid);
                 $submittedasgn->setStdId($userid);
                 $submittedasgn->setMarks(0);
@@ -211,7 +227,21 @@ class DefaultController extends Controller
                 $em->flush();
             }
 
+            $file = fopen("C:/APAGS/".$result_file,"w");
 
+            foreach ($expected_output as $exoutput){
+                fwrite($file,$exoutput.' ');
+            }
+            fwrite($file,"newline ");
+            foreach ($your_output as $uoutput){
+                fwrite($file,(string)$uoutput.' ');
+            }
+            fwrite($file,"newline ");
+            foreach ($testcase_marks as $testmrk){
+                fwrite($file,$testmrk.' ');
+            }
+            fwrite($file,"\n");
+            fclose($file);
 
         }
     	return $this->render('MainBundle:Default:index.html.twig');
@@ -266,6 +296,7 @@ class DefaultController extends Controller
             FROM MainBundle:TestCase T
             ORDER BY T.id DESC'
         );
+
 
         if ($inputsize>=1){
             $y=0;

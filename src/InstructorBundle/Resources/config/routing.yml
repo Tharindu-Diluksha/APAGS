@@ -14,6 +14,19 @@ instructor_createassignmentthroughclass:
     path: /ins_create_assignment_through_class/{classid}
     defaults: { _controller: InstructorBundle:Default:create_assignment_through_class}
 
+instructor_seeclassassignments:
+    path: /ins_see_class_assignments/{classid}
+    defaults: { _controller: InstructorBundle:Default:see_class_assignments}
+
+instructor_seesubmittedresults:
+    path: /ins_see_submitted_results/{assignmentid}
+    defaults: { _controller: InstructorBundle:Default:see_submitted_results}
+
+ins_see_test_result:
+    path: /ins_see_test_result/{stid}/{asid}
+    defaults: { _controller: InstructorBundle:Default:ins_see_test_result}
+
 instructor_classes:
     path: /ins_myclasses
     defaults: { _controller: InstructorBundle:Default:myclasses}
+

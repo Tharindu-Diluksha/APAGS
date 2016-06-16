@@ -1,0 +1,44 @@
+{% extends 'InstructorBundle:Default:index.html.twig'%}
+
+{% block stylesheets %}
+    <link href="{{ 	asset('bundles/instructor/bootstrap/dist/css/bootstrap.min.css')}}" type="text/css" rel="stylesheet"/>
+    <link href="{{ asset('css/main.css') }}" type="text/css" rel="stylesheet" />
+    <script src="{{ asset('bundles/instructor/bootstrap/jquery.min.js') }}"></script>
+    <script src="bundles/instructor/bootstrap/dist/js/bootstrap.min.js"></script>
+{% endblock %}
+
+
+{% block content %}
+    <!-- Custome content for pages goes here -->
+    <div class="container">
+        <h2>Submissions</h2>
+        <p>Click on student id for more details</p>
+
+        {% for myassignment in assignments %}
+
+            <div class="container" style="border: outset; width: 500px">
+
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>{{ assignmentid }}</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr>
+                        <td><a href={{ path('ins_see_test_result', {'stid':myassignment.stdid , 'asid':assignmentid}) }}>{{ myassignment.stdid }}</a></td>
+                        <td>Marks:{{ myassignment.marks }}</td>
+                        <td>{{ myassignment.description }}</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        {% endfor %}
+
+    </div>
+{% endblock %}
